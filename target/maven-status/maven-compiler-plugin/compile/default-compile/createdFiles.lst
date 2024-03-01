@@ -1,0 +1,14 @@
+com\clelton\gl\entity\Autor.class
+com\clelton\gl\dto\LivroDTO.class
+com\clelton\gl\entity\Editora$EditoraBuilder.class
+com\clelton\gl\dto\EditoraDTO$EditoraDTOBuilder.class
+com\clelton\gl\entity\Livro$LivroBuilder.class
+com\clelton\gl\controller\LivrariaController.class
+com\clelton\gl\dto\EditoraDTO.class
+com\clelton\gl\entity\Editora.class
+com\clelton\gl\GerenciamentoLivrariaApplication.class
+com\clelton\gl\dto\AutorDTO.class
+com\clelton\gl\dto\AutorDTO$AutorDTOBuilder.class
+com\clelton\gl\dto\LivroDTO$LivroDTOBuilder.class
+com\clelton\gl\entity\Autor$AutorBuilder.class
+com\clelton\gl\entity\Livro.class
