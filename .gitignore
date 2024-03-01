@@ -1,23 +1,62 @@
-jboss/server/all/deploy/project.ext
-jboss/server/default/deploy/project.ext
-jboss/server/minimal/deploy/project.ext
-jboss/server/all/log/*.log
-jboss/server/all/tmp/**/*
-jboss/server/all/data/**/*
-jboss/server/all/work/**/*
-jboss/server/default/log/*.log
-jboss/server/default/tmp/**/*
-jboss/server/default/data/**/*
-jboss/server/default/work/**/*
-jboss/server/minimal/log/*.log
-jboss/server/minimal/tmp/**/*
-jboss/server/minimal/data/**/*
-jboss/server/minimal/work/**/*
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# deployed package files #
+# Arquivos de cache do Spring Boot
+spring-boot-*.jar
 
-*.DEPLOYED
+# Arquivos de log do Spring Boot
+logs/
 
+# Arquivos de configuração
+application.yml
+application.properties
 
-.mvn
-.setting
+# Arquivos de log
+log/
+*.log
+
+# Arquivos temporários
+*.tmp
+*.swp
+
+# Dependências do Maven
+/.mvn
+/mvnw
+/mvnw.cmd
+
+# Arquivos de build
+build/
+
+# Arquivos de configuração do Gradle
+.gradle/
+
+# STS e Eclipse
+.classpath
+.project
+.settings
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/
