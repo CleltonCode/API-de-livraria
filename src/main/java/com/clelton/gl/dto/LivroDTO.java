@@ -16,10 +16,11 @@ public class LivroDTO {
 	
 		private Long id;
 		private String isbn;
+		private String titulo;
 		private int anoPublicacao;
 		private int numeroDePaginas;
-		private Long autor;
-		private Long editora;
+		private AutorDTO autor;
+		private EditoraDTO editora;
 		
 		
 	

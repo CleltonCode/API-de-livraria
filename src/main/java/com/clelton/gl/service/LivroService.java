@@ -11,6 +11,6 @@ public interface LivroService {
     LivroDTO buscarLivro(Long id);
     LivroDTO atrualizarLivro(LivroDTO livroDTO);
     LivroDTO excluirLivro(LivroDTO livroDTO);
-    LivroDTO buscarLivroPorNome(String nomeLivro);
+    LivroDTO buscarLivroPorTitulo(String titulo);
 
 }
