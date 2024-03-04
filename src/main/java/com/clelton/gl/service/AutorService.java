@@ -1,15 +1,15 @@
 package com.clelton.gl.service;
 
 import com.clelton.gl.dto.AutorDTO;
-import com.clelton.gl.dto.LivroDTO;
+import com.clelton.gl.entity.Autor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface AutorService {
 
     AutorDTO criarAutor(AutorDTO autorDTO);
     AutorDTO obterAutorPorId(AutorDTO autorDTO);
-    List<LivroDTO> obterLivrosDoAutor(AutorDTO autorDTO);
+    AutorDTO buscarAutorPorId(Long id);
 }

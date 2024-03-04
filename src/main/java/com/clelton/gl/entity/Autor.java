@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "autor")
 public class Autor {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

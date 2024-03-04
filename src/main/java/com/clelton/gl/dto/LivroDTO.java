@@ -1,6 +1,7 @@
 package com.clelton.gl.dto;
 
 
+import com.clelton.gl.entity.Livro;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LivroDTO {
+public class LivroDTO{
 	
 	
 		private Long id;
@@ -21,7 +22,6 @@ public class LivroDTO {
 		private int numeroDePaginas;
 		private AutorDTO autor;
 		private EditoraDTO editora;
-		
-		
-	
+
+
 }
