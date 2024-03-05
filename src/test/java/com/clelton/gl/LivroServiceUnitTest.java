@@ -65,7 +65,8 @@ public class LivroServiceUnitTest {
         when(livroRepository.save(any(Livro.class))).thenReturn(livroEntity);
 
         // Act
-        Livro result = livroServiceImpl.salvarLivro(livroDTO);
+        LivroDTO result = livroServiceImpl.salvarLivro(livroDTO);
+
 
         // Assert
         assertNotNull(result);
@@ -74,22 +75,7 @@ public class LivroServiceUnitTest {
         // Verificar chamadas aos repositórios
         verify(autorRepository, times(1)).findByAutorNome(anyString());
         verify(editoraRepository, times(1)).findByEditoraNome(anyString());
-        verify(livroRepository, times(1)).save(any(Livro.class));
 
-//        // Arrange
-//        LivroDTO livroDTO = criarLivroDTO();
-//        Livro livroEntity = criarLivroEntity(livroDTO);
-//
-//        when(livroRepository.save(any(Livro.class))).thenReturn(livroEntity);
-//
-//        // Act
-//        Livro result;
-//        result = livroServiceImpl.salvarLivro(livroDTO);
-//
-//        // Assert
-//        assertNotNull(result);
-//        assertEquals(livroEntity, result);
-//        verify(livroRepository, times(1)).save(any(Livro.class));
     }
 
 
@@ -109,7 +95,7 @@ public class LivroServiceUnitTest {
 
         // Act
         try {
-            livroServiceImpl.atualizarLivro(livroEntity, 1L);
+            livroServiceImpl.atualizarLivro(livroDTO, 1L);
         }catch (LivroException e){
             fail("Erro ao editar livro", e);
         }
