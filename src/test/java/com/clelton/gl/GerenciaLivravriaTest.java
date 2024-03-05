@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ import com.clelton.gl.entity.Livro;
 import com.clelton.gl.exceptions.LivroException;
 import com.clelton.gl.repository.LivroRepository;
 import com.clelton.gl.service.LivroService;
+import com.clelton.gl.service.impl.LivroServiceImpl;
 
 
 @SpringBootTest
@@ -22,6 +24,9 @@ public class GerenciaLivravriaTest {
 	
 	@Autowired
 	private LivroService livroService;
+	
+	@InjectMocks
+	private LivroServiceImpl livroServiceImpl;
 	
 	@Mock
 	private LivroRepository livroRepository;
@@ -94,13 +99,12 @@ public class GerenciaLivravriaTest {
 	public void removerLivro() {
 		
 		//Arrange
-		criarLivro();
 		Long livroId = 1L;
 		when(livroRepository.existsById(livroId)).thenReturn(true);
 
 		
 		//Act
-		livroService.excluirLivro(livroId);
+		livroServiceImpl.excluirLivro(livroId);
 		
 		//Assert
 		verify(livroRepository).deleteById(livroId);
