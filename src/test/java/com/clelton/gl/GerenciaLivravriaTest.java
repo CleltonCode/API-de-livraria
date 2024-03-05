@@ -3,6 +3,9 @@ package com.clelton.gl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.clelton.gl.dto.AutorDTO;
 import com.clelton.gl.dto.EditoraDTO;
 import com.clelton.gl.dto.LivroDTO;
+import com.clelton.gl.entity.Autor;
 import com.clelton.gl.entity.Livro;
 import com.clelton.gl.exceptions.LivroException;
 import com.clelton.gl.repository.LivroRepository;
@@ -108,6 +112,62 @@ public class GerenciaLivravriaTest {
 		
 		//Assert
 		verify(livroRepository).deleteById(livroId);
+	}
+	
+	@Test
+	public void buscaLivroPorTitulo() {
+		criarLivro();
+		
+		Livro livro = livroService.buscarLivroPorTitulo("Titulo teste");
+		assertEquals("123456", livro.getIsbn());
+		assertEquals(1L, livro.getId());
+		assertEquals("Autor teste", livro.getAutor().getNomeAutor());
+		assertEquals("Editora teste", livro.getEditora().getNomeEditora());
+		
+		/*
+		 * livroDTO.setIsbn("123456");
+		livroDTO.setTitulo("Titulo teste");
+		livroDTO.setAnoPublicacao(2024);
+
+		AutorDTO autorDTO = new AutorDTO();
+		autorDTO.setNomeAutor("Autor teste");
+		livroDTO.setAutor(autorDTO);
+
+		EditoraDTO editoraDTO = new EditoraDTO();
+		editoraDTO.setNomeEditora("Editora teste");
+		livroDTO.setEditora(editoraDTO);
+		 * */
+		
+	}
+	
+	@Test
+	public void buscaLivroPorAutor() {
+		criarLivro();
+		
+		Autor autor = new Autor();
+		autor.setNomeAutor("Autor teste");
+		
+		List<Livro> livro =  livroService.buscarLivrosPorAutor(autor);
+		System.out.println("BOSTA "+ livro);
+		assertEquals("123456", livro.get(0).getIsbn());
+		assertEquals(1L, livro.get(0).getId());
+		assertEquals("Autor teste", livro.get(0).getAutor().getNomeAutor());
+		assertEquals("Editora teste", livro.get(0).getEditora().getNomeEditora());
+		
+		/*
+		 * livroDTO.setIsbn("123456");
+		livroDTO.setTitulo("Titulo teste");
+		livroDTO.setAnoPublicacao(2024);
+
+		AutorDTO autorDTO = new AutorDTO();
+		autorDTO.setNomeAutor("Autor teste");
+		livroDTO.setAutor(autorDTO);
+
+		EditoraDTO editoraDTO = new EditoraDTO();
+		editoraDTO.setNomeEditora("Editora teste");
+		livroDTO.setEditora(editoraDTO);
+		 * */
+		
 	}
 	
 	
