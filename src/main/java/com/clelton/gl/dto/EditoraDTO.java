@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EditoraDTO {
 	private Long id;
-	private String nomeEditora;
+	private String editoraNome;
 }

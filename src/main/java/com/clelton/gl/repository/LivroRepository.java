@@ -15,5 +15,6 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
     @Query("SELECT l FROM Livro l  WHERE l.titulo LIKE %:titulo% ")
     Livro findByTitulo(@Param("titulo") String titulo);
 
-    List<Livro> findByAutor(Autor autor);
+    @Query("SELECT l FROM Livro l JOIN l.autor a WHERE a.autorNome = :autorNome")
+    List<Livro> findByAutorNome(@Param("autorNome") String autorNome);
 }

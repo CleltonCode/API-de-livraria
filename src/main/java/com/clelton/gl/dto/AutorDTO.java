@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AutorDTO {
 	private Long id;
-	
-	private String nomeAutor;
+	private String autorNome;
 }

@@ -20,5 +20,5 @@ public class Editora{
 		@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String nomeEditora;
+	private String editoraNome;
 }

@@ -11,12 +11,11 @@ public class AutorMapper {
 
     public AutorDTO autorToDTO(Autor autor){
         Objects.requireNonNull(autor, "Objeto Autor null");
-        return new AutorDTO(autor.getId(), autor.getNomeAutor());
+        return new AutorDTO(autor.getId(), autor.getAutorNome());
     }
 
     public Autor autorToEntity(AutorDTO autorDTO){
         Objects.requireNonNull(autorDTO, "Objeto AutorDTO null");
-
-        return new Autor(autorDTO.getId(), autorDTO.getNomeAutor());
+        return new Autor(autorDTO.getId(), autorDTO.getAutorNome());
     }
 }

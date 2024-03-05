@@ -9,5 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface EditoraRepository extends JpaRepository<Editora, Long> {
-    Optional<Editora> findByNomeEditora(String nomeEditora);
+    Optional<Editora>  findByEditoraNome(String nomeEditora);
+
 }

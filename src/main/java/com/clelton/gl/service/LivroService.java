@@ -18,6 +18,6 @@ public interface LivroService {
     void excluirLivro(Long id);
     Livro buscarLivroPorTitulo(String titulo);
 
-                                                                                                                                                            List<Livro> buscarLivrosPorAutor(Autor autor);
+    List<Livro> buscarLivrosPorAutor(String autorNome);
 
 }

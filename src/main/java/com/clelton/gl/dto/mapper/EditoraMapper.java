@@ -11,12 +11,12 @@ public class EditoraMapper {
 
     public EditoraDTO editoraToDTO(Editora editora){
         Objects.requireNonNull(editora, "Objeto Editora null");
-        return new EditoraDTO(editora.getId(), editora.getNomeEditora());
+        return new EditoraDTO(editora.getId(), editora.getEditoraNome());
     }
 
     public Editora editoraToEntity(EditoraDTO editoraDTO){
         Objects.requireNonNull(editoraDTO, "Objeto EditoraDTO null");
-        return new Editora(editoraDTO.getId(), editoraDTO.getNomeEditora());
+        return new Editora(editoraDTO.getId(), editoraDTO.getEditoraNome());
     }
 
 }

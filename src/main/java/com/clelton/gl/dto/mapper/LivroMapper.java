@@ -31,26 +31,43 @@ public class LivroMapper {
     }
 
     public Livro livroToEntity(LivroDTO livroDTO){
-        Objects.requireNonNull(livroDTO, "Objeto LivroDTO null");
+//        Objects.requireNonNull(livroDTO, "Objeto LivroDTO null");
+//        Livro livro = new Livro();
+//
+//        livro.setId(livroDTO.getId());
+//        livro.setIsbn(livroDTO.getIsbn());
+//        livro.setTitulo(livroDTO.getTitulo());
+//        livro.setAnoPublicacao(livroDTO.getAnoPublicacao());
+//        livro.setNumeroDePaginas(livroDTO.getNumeroDePaginas());
+//
+//        Editora editora = new Editora();
+//        editora.setId(livroDTO.getEditora().getId());
+//        editora.setEditoraNome(livroDTO.getEditora().getEditoraNome());
+//        livro.setEditora(editora);
+//
+//        Autor autor = new Autor();
+//        autor.setId(livroDTO.getAutor().getId());
+//        autor.setAutorNome(livroDTO.getAutor().getAutorNome());
+//        livro.setAutor(autor);
+//
+//        LOG.info("Livro to ENTITY: " + livro);
+//        return livro;
         Livro livro = new Livro();
-
         livro.setId(livroDTO.getId());
         livro.setIsbn(livroDTO.getIsbn());
         livro.setTitulo(livroDTO.getTitulo());
         livro.setAnoPublicacao(livroDTO.getAnoPublicacao());
-        livro.setNumeroDePaginas(livroDTO.getNumeroDePaginas());
-
-        Editora editora = new Editora();
-        editora.setId(livroDTO.getEditora().getId());
-        editora.setNomeEditora(livroDTO.getEditora().getNomeEditora());
-        livro.setEditora(editora);
 
         Autor autor = new Autor();
         autor.setId(livroDTO.getAutor().getId());
-        autor.setNomeAutor(livroDTO.getAutor().getNomeAutor());
+        autor.setAutorNome(livroDTO.getAutor().getAutorNome());
         livro.setAutor(autor);
 
-        LOG.info("Livro to ENTITY: " + livro);
+        Editora editora = new Editora();
+        editora.setId(livroDTO.getEditora().getId());
+        editora.setEditoraNome(livroDTO.getEditora().getEditoraNome());
+        livro.setEditora(editora);
+
         return livro;
     }
 }

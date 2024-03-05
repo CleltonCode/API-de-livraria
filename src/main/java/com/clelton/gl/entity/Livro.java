@@ -43,7 +43,7 @@ public class Livro {
 
 	// Método para obter o Nome do Autor
 	public String getAutorNome() {
-		return (autor != null) ? autor.getNomeAutor() : null;
+		return (autor != null) ? autor.getAutorNome() : null;
 	}
 
 	// Método para obter o ID da Editora
@@ -53,7 +53,7 @@ public class Livro {
 
 	// Método para obter o Nome da Editora
 	public String getEditoraNome() {
-		return (editora != null) ? editora.getNomeEditora() : null;
+		return (editora != null) ? editora.getEditoraNome() : null;
 	}
 	
 	
