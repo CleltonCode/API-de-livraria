@@ -22,7 +22,7 @@ O Sistema de Livraria é uma aplicação Java baseada em Spring Boot que oferece
 
 ## Tecnologias Utilizadas
 
-- Java
+- Java - JDK 17
 - Spring Boot
 - Hibernate
 - JUnit para TDD
