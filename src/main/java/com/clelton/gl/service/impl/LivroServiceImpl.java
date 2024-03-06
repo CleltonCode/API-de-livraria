@@ -18,10 +18,12 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.DataException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,23 +31,23 @@ import java.util.stream.Collectors;
 @Service
 public class LivroServiceImpl implements LivroService {
 
-    private final LivroRepository livroRepository;
-    private final AutorRepository autorRepository;
-    private final EditoraRepository editoraRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
-    private static final Logger LOG = LogManager.getLogger(LivroServiceImpl.class);
+    @Autowired
+    private  LivroRepository livroRepository;
 
     @Autowired
-    public LivroServiceImpl(LivroRepository livroRepository, AutorRepository autorRepository, EditoraRepository editoraRepository) {
-        this.livroRepository = livroRepository;
-        this.autorRepository = autorRepository;
-        this.editoraRepository = editoraRepository;
-    }
+    private  AutorRepository autorRepository;
+    
+    @Autowired
+    private EditoraRepository editoraRepository;
+
+    private  ModelMapper modelMapper = new ModelMapper() ;
+    private static final Logger LOG = LogManager.getLogger(LivroServiceImpl.class);
+
 
     @Override
     public LivroDTO salvarLivro(LivroDTO livroDTO) {
         try{
-            Livro livro = this.modelMapper.map(livroDTO, Livro.class);
+            Livro livro = modelMapper.map(livroDTO, Livro.class);
 
             Autor autorRecebido= livro.getAutor();
             Editora editoraRecebida = livro.getEditora();
@@ -54,7 +56,7 @@ public class LivroServiceImpl implements LivroService {
             Editora editora = criarOuRecupararEditora(editoraRecebida);
             livro.setAutor(autor);
             livro.setEditora(editora);
-            this.livroRepository.save(livro);
+            livroRepository.save(livro);
 
             return livroDTO;
         }catch (LivroException e){
@@ -65,18 +67,22 @@ public class LivroServiceImpl implements LivroService {
 
     @Override
     public Optional<Livro> buscarLivroPorId(Long id){
-       return this.livroRepository.findById(id);
+       return livroRepository.findById(id);
 
     }
 
     @Override
-    public LivrosPageDTO todosOsLivros(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+    public LivrosPageDTO listarLivros(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+        LOG.info("buscarTodosOsLivros");
         PageRequest pageRequest = PageRequest.of(page, pageSize);
-        Page<Livro> livroPage = this.livroRepository.findAll(pageRequest);
+        Page<Livro> livroPage = livroRepository.findAll(pageRequest);
 
-        List<LivroDTO> livroDTOList = livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent();
 
-        LivrosPageDTO livrosPageDTO = new LivrosPageDTO(livroDTOList, page, page);
+        List<LivroDTO> livroDTOList = livroPage.hasContent() ?
+                livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent():
+                Collections.emptyList();
+
+        LivrosPageDTO livrosPageDTO = new LivrosPageDTO(livroDTOList, page, livroPage.getTotalPages());
 
         return livrosPageDTO;
     }
@@ -84,31 +90,78 @@ public class LivroServiceImpl implements LivroService {
     @Override
     public Livro atualizarLivro(LivroDTO livroDTO, Long id) {
 
-        Optional<Livro> livroExist = this.livroRepository.findById(id);
+        Optional<Livro> livroExist = livroRepository.findById(id);
         if (!livroExist.isEmpty()){
             Livro livro = modelMapper.map(livroDTO, Livro.class);
-            return this.livroRepository.save(livro);
+            
+            Autor autor = criarOuRecuperarAutor(livro.getAutor());
+            Editora editora = criarOuRecupararEditora(livro.getEditora());
+            
+            livro.setAutor(autor);
+            livro.setEditora(editora);
+            
+            return livroRepository.save(livro);
+            
         }
 
         return null;
     }
 
-
-
     @Override
     public void excluirLivro(Long id) {
-         this.livroRepository.deleteById(id);
+         livroRepository.deleteById(id);
     }
 
     @Override
-    public Livro buscarLivroPorTitulo(String titulo) {
-        return this.livroRepository.findByTitulo(titulo);
+    public LivrosPageDTO buscarLivrosPorAutor(int page, int pageSize, String nomeAutor) {
+    	LOG.info("buscar Por Autor");
+    	
+    	PageRequest pageable = PageRequest.of(page, pageSize);
+    	
+    	Page<Livro> livroPage = livroRepository.findByAutorAutorNomeContainingIgnoreCase(nomeAutor, pageable);
+
+
+    	 List<LivroDTO> livroDTOList = livroPage.hasContent() ?
+    	            livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent() :
+    	            Collections.emptyList();
+
+    	return new LivrosPageDTO(livroDTOList, page, livroPage.getTotalPages());
+    	
     }
 
     @Override
-    public List<Livro> buscarLivrosPorAutor(String autorNome) {
-        return this.livroRepository.findByAutorNome(autorNome);
+    public LivrosPageDTO buscarLivroPorTitulo(int page, int pageSize, String tituloLivro) {
+LOG.info("buscar Por Título");
+    	
+    	PageRequest pageable = PageRequest.of(page, pageSize);
+    	
+    	Page<Livro> livroPage = livroRepository.findByTituloContainingIgnoreCase(tituloLivro, pageable);
+
+    	 List<LivroDTO> livroDTOList = livroPage.hasContent() ?
+    	            livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent() :
+    	            Collections.emptyList();
+
+    	return new LivrosPageDTO(livroDTOList, page, livroPage.getTotalPages());
+    	
     }
+    
+    @Override
+    public LivrosPageDTO buscarLivrosPorAutorTitulo(int page, int pageSize, String nomeAutor, String tituloLivro) {
+LOG.info("buscar Por Autor e Título");
+    	
+    	PageRequest pageable = PageRequest.of(page, pageSize);
+    	
+    	Page<Livro> livroPage = livroRepository.findByAutorNomeContainingIgnoreCaseAndTituloContainingIgnoreCase(nomeAutor, tituloLivro, pageable);
+
+
+    	 List<LivroDTO> livroDTOList = livroPage.hasContent() ?
+    	            livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent() :
+    	            Collections.emptyList();
+
+    	return new LivrosPageDTO(livroDTOList, page, livroPage.getTotalPages());
+    	
+    }
+
 
 
     private Autor criarOuRecuperarAutor(Autor  autor){

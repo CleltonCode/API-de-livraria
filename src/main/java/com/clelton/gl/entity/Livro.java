@@ -36,25 +36,6 @@ public class Livro {
 	@JoinColumn(name = "editora_id")
 	private Editora editora;
 
-	// Método para obter o ID do Autor
-	public Long getAutorId() {
-		return (autor != null) ? autor.getId() : null;
-	}
-
-	// Método para obter o Nome do Autor
-	public String getAutorNome() {
-		return (autor != null) ? autor.getAutorNome() : null;
-	}
-
-	// Método para obter o ID da Editora
-	public Long getEditoraId() {
-		return (editora != null) ? editora.getId() : null;
-	}
-
-	// Método para obter o Nome da Editora
-	public String getEditoraNome() {
-		return (editora != null) ? editora.getEditoraNome() : null;
-	}
 	
 	
 }
