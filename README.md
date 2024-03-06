@@ -48,4 +48,4 @@ O Sistema de Livraria é uma aplicação Java baseada em Spring Boot que oferece
 
 [Clelton]  
 [cleltonh@gmail.com]  
-[[https://](https://www.linkedin.com/in/clelton-henrique/)https://www.linkedin.com/in/clelton-henrique/]
+[(https://www.linkedin.com/in/clelton-henrique/)Clelton Henrique]
