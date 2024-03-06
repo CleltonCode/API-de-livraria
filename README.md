@@ -1,8 +1,8 @@
-# Sistema de Livraria
+# API de Livraria
 
 ## Descrição
 
-O Sistema de Livraria é uma aplicação Java baseada em Spring Boot que oferece um conjunto abrangente de funcionalidades para o gerenciamento eficiente de livros, editoras e autores. Desenvolvido com foco na simplicidade e escalabilidade, esse sistema facilita o registro, busca e edição de informações relacionadas a publicações, fornecendo uma solução robusta para ambientes de livrarias e bibliotecas.
+Esta API Java é baseada em Spring Boot que oferece um conjunto de funcionalidades para o gerenciamento de livros, editoras e autores. Desenvolvido com foco na simplicidade e escalabilidade, esse sistema facilita o registro, busca e edição de informações relacionadas a publicações, fornecendo uma solução robusta para ambientes de livrarias e bibliotecas.
 
 ## Funcionalidades Destacadas
 
