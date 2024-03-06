@@ -23,12 +23,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/livros")
-public class LivrariaController {
+public class LivroController {
 
     @Autowired
     private LivroService livroService;
 
-    private static final Logger LOG = LogManager.getLogger(LivrariaController.class);
+    private static final Logger LOG = LogManager.getLogger(LivroController.class);
 
     @PostMapping
     public ResponseEntity<LivroDTO> salvarLivro(@RequestBody LivroDTO livroDTO){
