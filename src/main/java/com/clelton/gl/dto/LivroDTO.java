@@ -1,7 +1,6 @@
 package com.clelton.gl.dto;
 
 
-import com.clelton.gl.entity.Livro;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

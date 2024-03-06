@@ -5,21 +5,17 @@ import com.clelton.gl.dto.LivrosPageDTO;
 import com.clelton.gl.entity.Livro;
 import com.clelton.gl.exceptions.LivroException;
 import com.clelton.gl.service.LivroService;
+
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("api/livros")
@@ -28,10 +24,9 @@ public class LivroController {
     @Autowired
     private LivroService livroService;
 
-    private static final Logger LOG = LogManager.getLogger(LivroController.class);
 
     @PostMapping
-    public ResponseEntity<LivroDTO> salvarLivro(@RequestBody LivroDTO livroDTO){
+    public ResponseEntity<LivroDTO> salvarLivro(@Valid @RequestBody LivroDTO livroDTO){
         try{
 
             LivroDTO bodyResult = livroService.salvarLivro(livroDTO);
