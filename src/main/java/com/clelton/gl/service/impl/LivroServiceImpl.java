@@ -42,7 +42,7 @@ public class LivroServiceImpl implements LivroService {
 
 
     @Override
-    public LivroDTO salvarLivro(LivroDTO livroDTO) {
+    public Livro salvarLivro(LivroDTO livroDTO) {
         try{
             Livro livro = modelMapper.map(livroDTO, Livro.class);
 
@@ -53,9 +53,8 @@ public class LivroServiceImpl implements LivroService {
             Editora editora = criarOuRecupararEditora(editoraRecebida);
             livro.setAutor(autor);
             livro.setEditora(editora);
-            livroRepository.save(livro);
 
-            return livroDTO;
+            return livroRepository.save(livro);
         }catch (LivroException e){
             throw new LivroException("Erro ao salvar novo livro");
         }
@@ -112,43 +111,35 @@ public class LivroServiceImpl implements LivroService {
     @Override
     public LivrosPageDTO buscarLivrosPorAutor(int page, int pageSize, String nomeAutor) {
     	LOG.info("buscar Por Autor");
-    	
     	PageRequest pageable = PageRequest.of(page, pageSize);
-    	
     	Page<Livro> livroPage = livroRepository.findByAutorAutorNomeContainingIgnoreCase(nomeAutor, pageable);
-
-
-    	 List<LivroDTO> livroDTOList = livroPage.hasContent() ?
-    	            livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent() :
-    	            Collections.emptyList();
+    	List<LivroDTO> livroDTOList = livroPage.hasContent() ?
+    	        livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent() :
+    	        Collections.emptyList();
 
     	return new LivrosPageDTO(livroDTOList, page, livroPage.getTotalPages());
     	
     }
 
     @Override
-    public LivrosPageDTO buscarLivroPorTitulo(int page, int pageSize, String tituloLivro) {
-LOG.info("buscar Por Título");
-    	
+    public LivrosPageDTO buscarLivroPorTitulo( int page, int pageSize, String tituloLivro) {
+        LOG.info("buscar Por Título");
     	PageRequest pageable = PageRequest.of(page, pageSize);
-    	
-    	Page<Livro> livroPage = livroRepository.findByTituloContainingIgnoreCase(tituloLivro, pageable);
+        Page<Livro> livroPage = livroRepository.findByTituloContainingIgnoreCase(tituloLivro, pageable);
+        List<LivroDTO> livroDTOList = livroPage.hasContent() ?
+                livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent() :
+                Collections.emptyList();
+        return new LivrosPageDTO(livroDTOList, page, livroPage.getTotalPages());
 
-    	 List<LivroDTO> livroDTOList = livroPage.hasContent() ?
-    	            livroPage.map(livro -> modelMapper.map(livro, LivroDTO.class)).getContent() :
-    	            Collections.emptyList();
-
-    	return new LivrosPageDTO(livroDTOList, page, livroPage.getTotalPages());
-    	
     }
     
     @Override
     public LivrosPageDTO buscarLivrosPorAutorTitulo(int page, int pageSize, String nomeAutor, String tituloLivro) {
-LOG.info("buscar Por Autor e Título");
+      LOG.info("buscar Por Autor e Título");
     	
     	PageRequest pageable = PageRequest.of(page, pageSize);
     	
-    	Page<Livro> livroPage = livroRepository.findByAutorNomeContainingIgnoreCaseAndTituloContainingIgnoreCase(nomeAutor, tituloLivro, pageable);
+    	Page<Livro> livroPage = livroRepository.findByAutorAutorNomeContainingIgnoreCaseAndTituloContainingIgnoreCase(nomeAutor, tituloLivro, pageable);
 
 
     	 List<LivroDTO> livroDTOList = livroPage.hasContent() ?

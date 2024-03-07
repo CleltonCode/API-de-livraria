@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import com.clelton.gl.dto.AutorDTO;
 import com.clelton.gl.dto.EditoraDTO;
 import com.clelton.gl.dto.LivroDTO;
+import com.clelton.gl.dto.LivrosPageDTO;
 import com.clelton.gl.entity.Autor;
 import com.clelton.gl.entity.Editora;
 import com.clelton.gl.entity.Livro;
@@ -16,19 +17,21 @@ import com.clelton.gl.repository.LivroRepository;
 import com.clelton.gl.service.impl.LivroServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 
 public class LivroServiceUnitTest {
-
-    @InjectMocks
-    private LivroServiceImpl livroServiceImpl;
 
     @Mock
     private LivroRepository livroRepository;
@@ -37,6 +40,9 @@ public class LivroServiceUnitTest {
 
     @Mock
     private EditoraRepository editoraRepository;
+
+    @InjectMocks
+    private LivroServiceImpl livroServiceImpl;
 
     private ModelMapper modelMapper = new ModelMapper();
 
@@ -65,7 +71,7 @@ public class LivroServiceUnitTest {
         when(livroRepository.save(any(Livro.class))).thenReturn(livroEntity);
 
         // Act
-        LivroDTO result = livroServiceImpl.salvarLivro(livroDTO);
+        Livro result = livroServiceImpl.salvarLivro(livroDTO);
 
 
         // Assert
@@ -120,19 +126,27 @@ public class LivroServiceUnitTest {
 
     }
 
+
     @Test
     public void deveBuscarlivroPorTituloComSucesso(){
         // Arrange
         LivroDTO livroDTO = criarLivroDTO();
         Livro livroEntity = criarLivroEntity(livroDTO);
-        when(livroRepository.findByTitulo("Titulo teste")).thenReturn(livroEntity);
+
+        when(livroRepository.findByTituloContainingIgnoreCase("Titulo Livro 1", PageRequest.of(0, 10)))
+                .thenReturn(new PageImpl<>(Collections.singletonList(livroEntity)));
+        //old -> when(livroRepository.findByTitulo("Titulo teste")).thenReturn(livroEntity);
 
         // Act
-        Livro result = livroServiceImpl.buscarLivroPorTitulo("Titulo teste");
+        //odo -> Livro result = livroServiceImpl.buscarLivroPorTitulo("Titulo teste");
+        LivrosPageDTO result = livroServiceImpl.buscarLivroPorTitulo( 0, 10, "Titulo Livro 1" );
+        Livro livroResult = modelMapper.map(result.livros().get(0), Livro.class);
 
         // Assert
         assertNotNull(result);
-        assertEquals(livroEntity, result);
+        assertEquals(1, result.livros().size());
+        assertEquals(livroEntity, livroResult);
+
     }
 
     @Test
@@ -140,16 +154,43 @@ public class LivroServiceUnitTest {
         // Arrange
         LivroDTO livroDTO = criarLivroDTO();
         Livro livroEntity = criarLivroEntity(livroDTO);
-        when(livroRepository.findByAutorNome("Autor teste")).thenReturn(List.of(livroEntity));
+        String autorNome = "Nome Autor 1";
+        // old -> when(livroRepository.findByAutorNome("Autor teste")).thenReturn(List.of(livroEntity));
+        when(livroRepository.findByAutorAutorNomeContainingIgnoreCase(autorNome,
+                PageRequest.of(0, 1)))
+                .thenReturn(new PageImpl<>(Collections.singletonList(livroEntity)));
 
         // Act
-        List<Livro> result = livroServiceImpl.buscarLivrosPorAutor("Autor teste");
+        // old -> List<Livro> result = livroServiceImpl.buscarLivrosPorAutor("Autor teste");
+        LivrosPageDTO result  = livroServiceImpl.buscarLivrosPorAutor(0, 10, autorNome);
+        Livro livroResult = modelMapper.map(result.livros().get(0), Livro.class);
 
         // Assert
         assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(livroEntity, result.get(0));
+        assertEquals(1, result.livros().size());
+        assertEquals(livroEntity, livroResult);
     }
+/*
+    @Test
+    public void deveBuscaLivroPorAutorETituloComSucesso(){
+        // Arrange
+        LivroDTO livroDTO = criarLivroDTO();
+        Livro livroEntity = criarLivroEntity(livroDTO);
+        when(livroRepository
+                .findByAutorNomeContainingIgnoreCaseAndTituloContainingIgnoreCase("Nome Autor 1", "Titulo Livro 1",
+                        PageRequest.of(0, 1)))
+                .thenReturn(new PageImpl<>(Collections.singletonList(livroEntity)));
+
+        // Act
+        LivrosPageDTO result = livroServiceImpl.buscarLivrosPorAutorTitulo(0, 10, "Nome Autor 1", "Titulo Livro 1");
+
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(1, result.livros().size());
+        assertEquals(livroEntity, result.livros().get(0));
+
+    }*/
 
     @Test
     public void deveMapearDTOEmEntity(){
@@ -177,17 +218,17 @@ public class LivroServiceUnitTest {
         LivroDTO livroDTO = new LivroDTO();
         livroDTO.setId(1L);
         livroDTO.setIsbn("123456");
-        livroDTO.setTitulo("Titulo teste");
+        livroDTO.setTitulo("Titulo Livro 1");
         livroDTO.setAnoPublicacao(2024);
 
         AutorDTO autorDTO = new AutorDTO();
         autorDTO.setId(1L);
-        autorDTO.setAutorNome("Autor teste");
+        autorDTO.setAutorNome("Nome Autor 1");
         livroDTO.setAutor(autorDTO);
 
         EditoraDTO editoraDTO = new EditoraDTO();
         editoraDTO.setId(1L);
-        editoraDTO.setEditoraNome("Editora teste");
+        editoraDTO.setEditoraNome("Nome Editora 1");
         livroDTO.setEditora(editoraDTO);
 
         return livroDTO;
