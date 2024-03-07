@@ -33,7 +33,8 @@ Esta API Java é baseada em Spring Boot que oferece um conjunto de funcionalidad
 
 1. Clone o repositório.
 2. Configure o banco de dados.
-3. Execute a aplicação.
+3. Alterar a classe CorsConfig para acesso externo a api
+4. Execute a aplicação.
 
 ## Screenshots
 
