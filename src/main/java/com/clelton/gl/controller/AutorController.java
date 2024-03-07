@@ -1,5 +1,8 @@
 package com.clelton.gl.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +28,22 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @RestController
-@RequestMapping("/api/autores")
+@RequestMapping(value = "/api/autores",
+		        produces = "application/json")
 public class AutorController {
 	
 	@Autowired
 	private AutorService autorService;
-	
 
-	
+
+	@Operation(
+			summary = "Salvar Autor",
+			description = "Endpoint para salvar um Autor no banco de dados.",
+			responses = {
+					@ApiResponse(responseCode = "201", description = "Autor salvo com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao salvar Autor")
+			}
+	)
 	@PostMapping
 	public ResponseEntity<Autor> salvarAutor(@Valid @RequestBody AutorDTO autorDTO){
 		
@@ -43,8 +54,15 @@ public class AutorController {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao salvar Autor!", e);
 		}
 	}
-	
-	
+
+	@Operation(
+			summary = "Listar Autor",
+			description = "Endpoint para listar Autores, lista paginada.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Lista de Autores obtida com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao listar Autores")
+			}
+	)
 	@GetMapping
 	public ResponseEntity<AutoresPageDTO> listarAutores(
 			@RequestParam(defaultValue = "0") @PositiveOrZero int page, 
@@ -58,7 +76,16 @@ public class AutorController {
 		}
 		
 	}
-	
+
+
+	@Operation(
+			summary = "Editar Autor",
+			description = "Endpoint para editar Autor. O ID do Autor deve ser passado como parâmetro na URL.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Autor editado com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao editar Autor")
+			}
+	)
 	@PutMapping("/{id}")
 	public ResponseEntity<Autor> editarAutor(@Valid @RequestBody AutorDTO autorDTO, @PathVariable("id") Long id){
 		try {
@@ -68,8 +95,16 @@ public class AutorController {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao editar Autor!", e);
 		}
 	}
-	
-	
+
+
+	@Operation(
+			summary = "Buscar Autor por id",
+			description = "Endpoint efetuar busca de Autor. O ID do Autor deve ser passado como parâmetro na URL.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Autor encontr.ado com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao obter Autor por id")
+			}
+	)
 	@GetMapping("/{id}")
 	public ResponseEntity<Autor> buscarAutorPorId(@PathVariable("id") Long id){
 		try {

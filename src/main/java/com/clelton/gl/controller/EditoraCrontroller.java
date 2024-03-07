@@ -1,5 +1,7 @@
 package com.clelton.gl.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +24,21 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/editoras")
+@RequestMapping(value = "/api/editoras",
+		        produces = "application/json")
 public class EditoraCrontroller {
 	
 	@Autowired
 	private EditoraService editoraService;
-	
-	
+
+	@Operation(
+			summary = "Salvar Editora",
+			description = "Endpoint para salvar uma Editora no banco de dados.",
+			responses = {
+					@ApiResponse(responseCode = "201", description = "Editora salva com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao salvar Editora")
+			}
+	)
 	@PostMapping
 	public ResponseEntity<Editora> salvarEditora(@Valid @RequestBody EditoraDTO editoraDTO){
 		try {
@@ -38,8 +48,15 @@ public class EditoraCrontroller {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao salvar Editora", e);
 		}
 	}
-	
-	
+
+	@Operation(
+			summary = "Editar Editora",
+			description = "Endpoint para editar uma Editora no banco de dados. O ID da Editora deve ser passado como parâmetro na URL.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Editora editada com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao editar Editora")
+			}
+	)
 	@PutMapping("/{id}")
 	public ResponseEntity<Editora> editarEditora(@Valid @RequestBody EditoraDTO editoraDTO, @PathVariable("id")Long id){
 		try {
@@ -49,7 +66,15 @@ public class EditoraCrontroller {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao modificar Editora!", e);
 		}
 	}
-	
+
+	@Operation(
+			summary = "Listar Editora",
+			description = "Endpoint para listar uma Editora no banco de dados, lista paginada.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Lista de Editora obtida com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao obter lista de Editora")
+			}
+	)
 	@GetMapping
 	public ResponseEntity<EditorasPageDTO> listarEditoras(
 			  @RequestParam(defaultValue = "0") int page, 
@@ -62,8 +87,15 @@ public class EditoraCrontroller {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao listar Editoras!", e);
 		}
 	}
-	
-	
+
+	@Operation(
+			summary = "Buscar Editora",
+			description = "Endpoint para efetuar a busca de uma Editora no banco de dados. O ID da Editora deve ser passado como parâmetro na URL.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Editora obtida com sucesso"),
+					@ApiResponse(responseCode = "500", description = "Erro interno no servidor ao obter Editora")
+			}
+	)
 	@GetMapping("/{id}")
 	public ResponseEntity<Editora> buscarEditoraPorId(@PathVariable("id") Long id){
 		try {
