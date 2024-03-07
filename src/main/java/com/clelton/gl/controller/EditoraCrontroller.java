@@ -18,11 +18,14 @@ import com.clelton.gl.entity.Editora;
 import com.clelton.gl.exceptions.EditoraException;
 import com.clelton.gl.service.EditoraService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/editoras")
+@RequestMapping(value="/api/editoras", produces = "application/json")
 public class EditoraCrontroller {
 	
 	@Autowired
@@ -30,6 +33,11 @@ public class EditoraCrontroller {
 	
 	
 	@PostMapping
+    @Operation(summary = "Post salvar editora", description = "Inputa dados no banco, retornando a entidade após o input")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<Editora> salvarEditora(@Valid @RequestBody EditoraDTO editoraDTO){
 		try {
 			Editora editora = editoraService.salvarEditora(editoraDTO);
@@ -41,6 +49,11 @@ public class EditoraCrontroller {
 	
 	
 	@PutMapping("/{id}")
+    @Operation(summary = "Editar editora", description = "Método para edição do editora")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully ok"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<Editora> editarEditora(@Valid @RequestBody EditoraDTO editoraDTO, @PathVariable("id")Long id){
 		try {
 			Editora editora = editoraService.editarEditora(editoraDTO, id);
@@ -51,6 +64,11 @@ public class EditoraCrontroller {
 	}
 	
 	@GetMapping
+	@Operation(summary = "Listar editora", description = "Método para Listar editoras, com paginação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully ok"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<EditorasPageDTO> listarEditoras(
 			  @RequestParam(defaultValue = "0") int page, 
 			  @RequestParam(defaultValue = "8") int PageSize
@@ -65,6 +83,11 @@ public class EditoraCrontroller {
 	
 	
 	@GetMapping("/{id}")
+	@Operation(summary = "Busca editora por id", description = "Método para buscar editora passando id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully ok"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<Editora> buscarEditoraPorId(@PathVariable("id") Long id){
 		try {
 			Editora editora = editoraService.buscarEditoraPorId(id);

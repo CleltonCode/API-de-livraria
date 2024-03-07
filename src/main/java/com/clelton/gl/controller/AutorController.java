@@ -18,7 +18,10 @@ import com.clelton.gl.entity.Autor;
 import com.clelton.gl.exceptions.AutorException;
 import com.clelton.gl.service.AutorService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
@@ -34,6 +37,11 @@ public class AutorController {
 
 	
 	@PostMapping
+    @Operation(summary = "Post salvar autor", description = "Inputa dados no banco, retornando a entidade após o input")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<Autor> salvarAutor(@Valid @RequestBody AutorDTO autorDTO){
 		
 		try {
@@ -46,6 +54,11 @@ public class AutorController {
 	
 	
 	@GetMapping
+	@Operation(summary = "Listar autores", description = "Método para Listar autores, com paginação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully ok"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<AutoresPageDTO> listarAutores(
 			@RequestParam(defaultValue = "0") @PositiveOrZero int page, 
 			@RequestParam(defaultValue = "8")@Positive @Max(100) int pageSize) {
@@ -60,6 +73,11 @@ public class AutorController {
 	}
 	
 	@PutMapping("/{id}")
+    @Operation(summary = "Editar autor", description = "Método para edição do autor")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully ok"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<Autor> editarAutor(@Valid @RequestBody AutorDTO autorDTO, @PathVariable("id") Long id){
 		try {
 			Autor autor = autorService.editarAutor(autorDTO, id);
@@ -71,6 +89,11 @@ public class AutorController {
 	
 	
 	@GetMapping("/{id}")
+	@Operation(summary = "Busca autor por id", description = "Método para buscar autor passando id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully ok"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
 	public ResponseEntity<Autor> buscarAutorPorId(@PathVariable("id") Long id){
 		try {
 			Autor autor = autorService.buscarAutorPorId(id);
