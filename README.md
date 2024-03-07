@@ -45,8 +45,9 @@ Esta API Java é baseada em Spring Boot que oferece um conjunto de funcionalidad
 ![imagem](https://github.com/CleltonCode/Gerenciameto-de-livraria/assets/160769903/7ea92b17-6d40-4362-b782-5172560f862a)
 
 
-## Contato
+## Autor
+[Clelton Henrique]
+[cleltonh@gmail.com]
+[[Link para seu Perfil](https://www.linkedin.com/in/clelton-henrique)]
 
-[Clelton Henrique]  
-[cleltonh@gmail.com]  
-[https://www.linkedin.com/in/clelton-henrique]
+Sinta-se à vontade para explorar, contribuir e utilizar a Task Manager API! 😊
