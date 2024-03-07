@@ -6,6 +6,9 @@ import com.clelton.gl.entity.Livro;
 import com.clelton.gl.exceptions.LivroException;
 import com.clelton.gl.service.LivroService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
@@ -18,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
-@RequestMapping("api/livros")
+@RequestMapping(value = "api/livros",produces = "application/json")
 public class LivroController {
 
     @Autowired
@@ -26,6 +29,11 @@ public class LivroController {
 
 
     @PostMapping
+    @Operation(summary = "Post salvar livro", description = "Inputa dados no banco, retornando a entidade após o input")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
     public ResponseEntity<LivroDTO> salvarLivro(@Valid @RequestBody LivroDTO livroDTO){
         try{
 
@@ -37,6 +45,11 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Editar livro", description = "Método para edição do livro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
     public ResponseEntity<Livro> editarLivro(@PathVariable("id") Long id, @RequestBody LivroDTO livroDTO){
         try{
             Livro livro = livroService.atualizarLivro(livroDTO, id);
@@ -48,6 +61,12 @@ public class LivroController {
 
 
     @GetMapping
+  
+    @Operation(summary = "Listar livro", description = "Método para Listar livros, com paginação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
     public ResponseEntity<LivrosPageDTO> listarLivros(
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "8") @Positive @Max(100) int pageSize){
@@ -61,6 +80,12 @@ public class LivroController {
     }
 
     @GetMapping("/buscaLivroAutor/{nome_autor}")
+    
+    @Operation(summary = "Buscar livros por Autor", description = "Método para buscar livros passando o Autor, com paginação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully OK"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
     public ResponseEntity<LivrosPageDTO> buscarLivrosPorAutor(@PathVariable("nome_autor") String nomeAutor,
     		@RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "8") @Positive @Max(100) int pageSize){
@@ -74,6 +99,12 @@ public class LivroController {
     }
 
     @GetMapping("/buscaLivroTitulo/{titulo_livro}")
+    
+    @Operation(summary = "Buscar livros por Título", description = "Método para buscar livros passando o Título, com paginação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully OK"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
     public ResponseEntity<LivrosPageDTO> buscarLivrosPorTitulo(@PathVariable("titulo_livro") String tituloLivro, 
     		@RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "8") @Positive @Max(100) int pageSize){
@@ -86,6 +117,12 @@ public class LivroController {
     }
     
     @GetMapping("/buscaLivroTitulo/{nome_autor}/{titulo_livro}")
+
+    @Operation(summary = "Buscar livros por Autor e Título", description = "Método para buscar livros passando o Autor e Título, com paginação")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully OK"), 
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+        })
     public ResponseEntity<LivrosPageDTO> buscarLivrosPorAutorTitulo(
     		@PathVariable("nome_autor") String nomeAutor,
     		@PathVariable("titulo_livro") String tituloLivro, 
@@ -102,8 +139,13 @@ public class LivroController {
     
 
     @DeleteMapping("/deletarLivro/{livroId}")
-    public void deletarLivro(@PathVariable("livroId") Long livroId){
 
+    @Operation(summary = "Deletar livro", description = "Método para deletar livros passando o ID")
+    
+    public void deletarLivro(@PathVariable("livroId") Long livroId){
+    		
+    	livroService.excluirLivro(livroId);
+    		
     }
 
  }
