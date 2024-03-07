@@ -38,15 +38,11 @@ public class LivroController {
             }
     )
     @PostMapping
-    @Operation(summary = "Post salvar livro", description = "Inputa dados no banco, retornando a entidade após o input")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully created"), 
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-        })
-    public ResponseEntity<LivroDTO> salvarLivro(@Valid @RequestBody LivroDTO livroDTO){
+    public ResponseEntity<Livro> salvarLivro(@Valid @RequestBody LivroDTO livroDTO){
+
         try{
 
-            LivroDTO bodyResult = livroService.salvarLivro(livroDTO);
+            Livro bodyResult = livroService.salvarLivro(livroDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(bodyResult);
         }catch (LivroException e){
            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro Ao salvar livro", e);
@@ -153,7 +149,7 @@ public class LivroController {
     		@RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "8") @Positive @Max(100) int pageSize){
         try {
-        	LivrosPageDTO livros = livroService.buscarLivroPorTitulo(page, pageSize, tituloLivro);
+        	LivrosPageDTO livros = livroService.buscarLivroPorTitulo( page, pageSize, tituloLivro);
         	return ResponseEntity.status(HttpStatus.OK).body(livros);
         }catch (LivroException e) {
         	throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao buscar Livros por Título");

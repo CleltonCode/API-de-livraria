@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public interface LivroService {
 
-    LivroDTO salvarLivro(LivroDTO livroDTO);
+    Livro salvarLivro(LivroDTO livroDTO);
     
     Optional<Livro> buscarLivroPorId(Long id);
     
