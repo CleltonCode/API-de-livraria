@@ -28,7 +28,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @RestController
-@RequestMapping(value = "/api/autores",
+@RequestMapping(value = "${api.string.url}/autores",
 		        produces = "application/json")
 public class AutorController {
 	

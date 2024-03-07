@@ -20,7 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
-@RequestMapping(value = "api/livros",
+@RequestMapping(value = "${api.string.url}/livros",
                 produces = "application/json")
 public class LivroController {
 

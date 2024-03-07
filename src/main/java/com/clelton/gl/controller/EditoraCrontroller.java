@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/api/editoras",
+@RequestMapping(value = "${api.string.url}/editoras",
 		        produces = "application/json")
 public class EditoraCrontroller {
 	
