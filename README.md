@@ -46,7 +46,7 @@ Esta API Java é baseada em Spring Boot que oferece um conjunto de funcionalidad
 
 
 ## Autor
-- ### Clelton Henrique
+- Clelton Henrique
 - [cleltonh@gmail.com]
 - [[linkedin](https://www.linkedin.com/in/clelton-henrique)]
 
